@@ -1,6 +1,6 @@
-package cars;
+package car;
 
-import models.AutoMake;
+import enums.AutoMake;
 
 public abstract class Car {
     private AutoMake autoMake;

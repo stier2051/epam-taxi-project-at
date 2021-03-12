@@ -1,6 +1,6 @@
-package cars;
+package car;
 
-import models.TaxiClass;
+import enums.TaxiClass;
 
 public class PassengerTaxi extends Car{
     private TaxiClass taxiClass;
