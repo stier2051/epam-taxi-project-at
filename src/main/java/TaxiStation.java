@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class TaxiStation {
-    private List<Car> cars = new ArrayList<>();
+    private List<Car> cars;
 
     public TaxiStation(List<Car> cars) {
         this.cars = cars;

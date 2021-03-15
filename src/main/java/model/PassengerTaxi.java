@@ -25,11 +25,8 @@ public class PassengerTaxi extends Car{
     public String toString() {
         return "PassengerTaxi{" +
                 "Model = " + getAutoMake() + " " + getModel() +
-                ", Price = " + getPrice() +
                 ", Maximal speed = " + getMaxSpeed() +
                 ", Fuel consumption = " + getFuelConsumption() +
-                ", taxiClass = " + taxiClass +
-                ", passengerCapacity = " + passengerCapacity +
                 '}';
     }
 }
