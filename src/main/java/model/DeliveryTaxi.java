@@ -17,16 +17,8 @@ public class DeliveryTaxi extends Car{
         return taxiClass;
     }
 
-    public void setTaxiClass(TaxiClass taxiClass) {
-        this.taxiClass = taxiClass;
-    }
-
     public int getLoadCapacity() {
         return loadCapacity;
-    }
-
-    public void setLoadCapacity(int loadCapacity) {
-        this.loadCapacity = loadCapacity;
     }
 
     @Override

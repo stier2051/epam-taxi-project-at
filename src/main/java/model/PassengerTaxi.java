@@ -17,16 +17,8 @@ public class PassengerTaxi extends Car{
         return taxiClass;
     }
 
-    public void setTaxiClass(TaxiClass taxiClass) {
-        this.taxiClass = taxiClass;
-    }
-
     public int getPassengerCapacity() {
         return passengerCapacity;
-    }
-
-    public void setPassengerCapacity(int passengerCapacity) {
-        this.passengerCapacity = passengerCapacity;
     }
 
     @Override
