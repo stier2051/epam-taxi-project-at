@@ -1,60 +1,73 @@
-import enums.Faculty;
-import enums.Group;
+
+import enums.Mark;
 import enums.Subject;
-import model.GroupA;
+import exception.NullFacultiesInUniversityException;
+import exception.NullGroupsInFacultyException;
+import exception.NullStudentsInGroupException;
+import model.Faculty;
+import model.Group;
 import model.Student;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 public class University {
-    private List<Student> students;
-    private List<Group> groups;
+    static Logger logger = Logger.getGlobal();
+    private String universityName;
+    private List<model.Faculty> faculties;
 
-    public University(List<Student> students) {
-        this.students = students;
+    public University(String universityName, List<Faculty> faculties) {
+        this.universityName = universityName;
+        this.faculties = faculties;
     }
 
-    public List<Student> getStudentsListByFaculty(Faculty faculty) {
-        List<Student> list = new ArrayList<>();
-        for (Student student : students) {
-            if (student.getFaculty().equals(faculty)) list.add(student);
-        }
-        return list;
+    public List<Faculty> getFaculties() throws NullFacultiesInUniversityException {
+        if (faculties.size() == 0) {
+            throw new NullFacultiesInUniversityException(NullFacultiesInUniversityException.class.getName()  + ": must have group.");
+        }else return faculties;
     }
 
-    public List<Student> getStudentsListByGroup(Group group) {
-        List<Student> list = new ArrayList<>();
-        for (Student student : students) {
-            if (student.getGroup().equals(group)) list.add(student);
-        }
-        return list;
+    public String getUniversityName() {
+        return universityName;
     }
 
     public double getAverageMarkBySubjectInUniversity(Subject subject) {
-        double averageMark = 0;
-        double sum = 0;
-        switch (subject) {
-            case MATHEMATICS:
-                for (Student student : students) {
-                    sum += student.getMathMark();
-                }
-                averageMark = sum/students.size();
-                break;
-            case LAW:
-                for (Student student : students) {
-                    sum += student.getLawMark();
-                }
-                averageMark = sum/students.size();
-                break;
-            case ENGLISH:
-                for (Student student : students) {
-                    sum += student.getEnglishMark();
-                }
-                averageMark = sum/students.size();
-                break;
-            default:
+        List<Group> groupList = new ArrayList<>();
+        List<Student> studentList = new ArrayList<>();
+        Map<Subject, Mark> subjectMarkMap = new HashMap<>();
+        double sumOfMarks = 0;
+        int count = 0;
+
+        for (Faculty faculty : faculties) {
+            try {
+                groupList.addAll(faculty.getGroups());
+            } catch (NullGroupsInFacultyException e) {
+                logger.info("Faculty is empty!" + NullGroupsInFacultyException.class.getName());
+            }
         }
-        return averageMark;
+
+        for (Group group : groupList) {
+            try {
+                studentList.addAll(group.getStudents());
+            } catch (NullStudentsInGroupException e) {
+                logger.info("Group is empty! " + NullStudentsInGroupException.class.getName());
+            }
+        }
+
+        for (Student student : studentList) {
+            subjectMarkMap.putAll(student.getMarkMap());
+            for (Map.Entry<Subject, Mark> pair : subjectMarkMap.entrySet()) {
+                if (pair.getKey().equals(subject)) {
+                    sumOfMarks += (double) pair.getValue().getValue();
+                    count++;
+                }
+            }
+            subjectMarkMap.clear();
+        }
+        if (count == 0) count = 1;
+        return sumOfMarks / count;
     }
 }
